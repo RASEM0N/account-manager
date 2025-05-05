@@ -27,8 +27,7 @@ export const useAccountValidation = (account: Account) => {
 			.next()
 
 			.field('type')
-			.string()
-			.required()
+			.when((v) => v in AccountType)
 			.next()
 
 			.done(),
