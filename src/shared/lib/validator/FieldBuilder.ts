@@ -16,7 +16,7 @@ export class FieldBuilder<T, K extends keyof T> {
 	}
 
 	required() {
-		return this._push((v) => v === null || v === '');
+		return this._push((v) => v !== null && v !== '');
 	}
 
 	string(error?: string) {
@@ -24,11 +24,11 @@ export class FieldBuilder<T, K extends keyof T> {
 	}
 
 	min(length: number, error?: string) {
-		return this._push((v) => typeof v === 'string' && v.length < length, error);
+		return this._push((v) => typeof v === 'string' && v.length > length, error);
 	}
 
 	max(length: number, error?: string) {
-		return this._push((v) => typeof v === 'string' && v.length > length, error);
+		return this._push((v) => typeof v === 'string' && v.length < length, error);
 	}
 
 	next() {
@@ -43,7 +43,13 @@ export class FieldBuilder<T, K extends keyof T> {
 			this._ruleBuilder.rules[this._field] ??
 			(this._ruleBuilder.rules[this._field] = []);
 
-		arr.push((v, ctx) => (this._condition(v, ctx) && pred(v, ctx) ? error : null));
+		arr.push((v, ctx) => {
+			if (!this._condition(v, ctx)) {
+				return null;
+			}
+
+			return pred(v, ctx) ? null : error;
+		});
 		return this;
 	}
 }
