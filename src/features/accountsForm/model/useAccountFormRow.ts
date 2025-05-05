@@ -5,12 +5,12 @@ import {
 	useAccountValidation,
 } from '@/entites/account';
 import { TEXT } from '@/shared/config/text';
-import { reactive } from 'vue';
+import type { Reactive } from 'vue';
+import { watch } from 'vue';
 
-export const useAccountFormRow = (account: Account) => {
+export const useAccountFormRow = (account: Reactive<Account>) => {
 	const store = useAccountStore();
-	const values = reactive({ ...account });
-	const { errors, validateField } = useAccountValidation(values);
+	const { errors, validateField } = useAccountValidation(account);
 
 	const typeOptions = [
 		{ label: TEXT.types.LDAP, value: AccountType.ldap },
@@ -29,8 +29,15 @@ export const useAccountFormRow = (account: Account) => {
 		validateField(field);
 	};
 
+	watch(
+		() => account.type,
+		(value) => {
+			account.password = value === AccountType.ldap ? null : '';
+		},
+	);
+
 	return {
-		values,
+		values: account,
 		typeOptions,
 		errors,
 		update,

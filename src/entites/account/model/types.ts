@@ -3,7 +3,7 @@ export interface Account {
 	labels: string;
 	type: AccountType;
 	login: string;
-	password?: string;
+	password: string | null;
 }
 
 export enum AccountType {
