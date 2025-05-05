@@ -7,17 +7,19 @@ export class FieldBuilder<T, K extends keyof T> {
 	constructor(
 		private readonly _field: K,
 		private readonly _ruleBuilder: RuleBuilder<T>,
+		private _condition: RulePred<T> = () => true,
 	) {}
 
-	when(pred: RulePred<T>, error?: string) {
-		return this._push((v, ctx) => pred(v, ctx), error);
+	when(pred: RulePred<T>) {
+		this._condition = pred;
+		return this;
 	}
 
 	required() {
 		return this._push((v) => v === null || v === '');
 	}
 
-	string(length: number, error?: string) {
+	string(error?: string) {
 		return this._push((v) => typeof v === 'string', error);
 	}
 
@@ -41,7 +43,7 @@ export class FieldBuilder<T, K extends keyof T> {
 			this._ruleBuilder.rules[this._field] ??
 			(this._ruleBuilder.rules[this._field] = []);
 
-		arr.push((v, ctx) => (pred(v, ctx) ? error : null));
+		arr.push((v, ctx) => (this._condition(v, ctx) && pred(v, ctx) ? error : null));
 		return this;
 	}
 }
