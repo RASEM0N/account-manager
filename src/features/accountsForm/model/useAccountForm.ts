@@ -11,7 +11,7 @@ import type { Reactive } from 'vue';
 import { TEXT } from '@/shared/config/text';
 import { reactive, watch } from 'vue';
 
-export const useAccountFormRow = (account: Reactive<Account>) => {
+export const useAccountForm = (account: Reactive<Account>) => {
 	const values = reactive<AccountWithTextLabels>({
 		...account,
 		labels: textFromAccountLabels(account.labels),

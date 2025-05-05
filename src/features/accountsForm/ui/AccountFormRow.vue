@@ -10,7 +10,7 @@ import {
 	SelectItem,
 	SelectGroup,
 } from '@/shared/ui/select';
-import { useAccountFormRow } from '../model/useAccountFormRow';
+import { useAccountForm } from '../model/useAccountForm';
 import { type Account, AccountType } from '@/entites/account';
 import { TEXT } from '@/shared/config/text';
 import { cn } from '@/shared/lib/cls';
@@ -20,7 +20,7 @@ const { account } = defineProps<{
 	account: Account;
 }>();
 
-const { values, typeOptions, remove, errors, onBlur } = useAccountFormRow(account);
+const { values, typeOptions, remove, errors, onBlur } = useAccountForm(account);
 const isShowPassword = computed(() => values.type === AccountType.local);
 </script>
 <template>
