@@ -8,6 +8,3 @@ import { AccountsForm } from '@/features/accountsForm';
 		<AccountsForm />
 	</main>
 </template>
-<style>
-@import 'tailwindcss';
-</style>
