@@ -1,5 +1,6 @@
 import {
 	type Account,
+	type AccountWithTextLabels,
 	AccountType,
 	useAccountStore,
 	textFromAccountLabels,
@@ -11,13 +12,13 @@ import { TEXT } from '@/shared/config/text';
 import { reactive, watch } from 'vue';
 
 export const useAccountFormRow = (account: Reactive<Account>) => {
-	const values = reactive({
+	const values = reactive<AccountWithTextLabels>({
 		...account,
 		labels: textFromAccountLabels(account.labels),
 	});
 
 	const store = useAccountStore();
-	const { errors, validateField } = useAccountValidation(values);
+	const { errors, validateAll } = useAccountValidation();
 
 	const typeOptions = [
 		{ label: TEXT.types.LDAP, value: AccountType.ldap },
@@ -32,23 +33,38 @@ export const useAccountFormRow = (account: Reactive<Account>) => {
 		store.remove(account.id);
 	};
 
-	const blur = (field: keyof Account) => {
-		validateField(field);
+	const getNormalizedValues = (): AccountWithTextLabels => {
+		return {
+			id: values.id,
+			type: values.type,
+			password: !values.password ? null : values.password.trim(),
+			labels: values.labels.trim(),
+			login: values.login.trim(),
+		};
 	};
 
-	watch(values, ({ type, login, labels, password }, prev) => {
-		console.log(prev)
-		account.type = type;
-		account.login = login;
-		account.password = password;
-		account.labels = accountLabelsFromText(labels);
-	});
+	const tryUpdateAccount = () => {
+		const values = getNormalizedValues();
+
+		if (!validateAll(values)) {
+			return;
+		}
+
+		store.update(account.id, {
+			...values,
+			labels: accountLabelsFromText(values.labels),
+		});
+	};
+
+	const onBlur = () => {
+		tryUpdateAccount();
+	};
 
 	watch(
 		() => values.type,
 		(value) => {
-			// особо ни наче не влияет повторный вызов watch
 			values.password = value === AccountType.ldap ? null : '';
+			tryUpdateAccount();
 		},
 	);
 
@@ -58,6 +74,6 @@ export const useAccountFormRow = (account: Reactive<Account>) => {
 		errors,
 		update,
 		remove,
-		blur,
+		onBlur,
 	};
 };

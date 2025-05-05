@@ -20,26 +20,20 @@ const { account } = defineProps<{
 	account: Account;
 }>();
 
-const { values, typeOptions, remove, errors, blur } = useAccountFormRow(account);
+const { values, typeOptions, remove, errors, onBlur } = useAccountFormRow(account);
 const isShowPassword = computed(() => values.type === AccountType.local);
 </script>
 <template>
-	<div
-		:class="
-			cn(
-				'grid grid-cols-[repeat(10,1fr)_auto] gap-3 items-start border rounded-lg p-4 place-items-end',
-			)
-		"
-	>
+	<div class="grid grid-cols-[repeat(11,1fr)] gap-3">
 		<Input
 			class="col-span-3"
 			v-model="values.labels"
 			:placeholder="TEXT.placeholders.labels"
-			:invalid="errors.labels"
-			@blur="blur('labels')"
+			:error="!!errors.labels"
+			@blur="onBlur"
 		/>
 
-		<Select v-model="values.type" @blur="blur('type')">
+		<Select v-model="values.type">
 			<SelectTrigger class="col-span-2 overflow-hidden w-full">
 				<SelectValue :placeholder="TEXT.placeholders.type" />
 			</SelectTrigger>
@@ -65,8 +59,8 @@ const isShowPassword = computed(() => values.type === AccountType.local);
 			"
 			v-model="values.login"
 			:placeholder="TEXT.placeholders.login"
-			:invalid="errors.login"
-			@blur="blur('login')"
+			:error="!!errors.login"
+			@blur="onBlur"
 		/>
 
 		<Input
@@ -75,11 +69,16 @@ const isShowPassword = computed(() => values.type === AccountType.local);
 			type="password"
 			v-model="values.password"
 			:placeholder="TEXT.placeholders.password"
-			:invalid="errors.password"
-			@blur="blur('password')"
+      :error="!!errors.password"
+			@blur="onBlur"
 		/>
 
-		<Button variant="ghost" size="icon" class="text-red-500" @click="remove">
+		<Button
+			class="text-red-500 col-span-1 justify-self-end"
+			variant="ghost"
+			size="icon"
+			@click="remove"
+		>
 			<ShoppingBasket />
 		</Button>
 	</div>
