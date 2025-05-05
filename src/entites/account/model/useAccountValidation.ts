@@ -1,11 +1,11 @@
 import { RuleBuilder, useValidator } from '@/shared/lib/validator';
-import type { Account } from '@/entites/account';
 import { AccountType } from '@/entites/account';
+import type { AccountWithTextLabels } from './types';
 
-export const useAccountValidation = (account: Account) => {
+export const useAccountValidation = (account: AccountWithTextLabels) => {
 	return useValidator(
 		account,
-		new RuleBuilder<Account>()
+		new RuleBuilder<AccountWithTextLabels>()
 
 			.field('labels')
 			.string()

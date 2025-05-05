@@ -5,7 +5,7 @@ import { AccountType } from './types';
 export const createEmptyAccount = (): Account => {
 	return {
 		id: uuid(),
-		labels: '',
+		labels: [],
 		type: AccountType.local,
 		login: '',
 		password: '',
