@@ -15,6 +15,12 @@ const store = useAccountStore();
 				<Plus />
 			</Button>
 		</div>
+    <div class="grid grid-cols-[repeat(11,1fr)] gap-3 items-start">
+      <div class="col-span-3">{{ TEXT.rows.labels }}</div>
+      <div class="col-span-2">{{ TEXT.rows.type }}</div>
+      <div class="col-span-3">{{ TEXT.rows.login }}</div>
+      <div class="col-span-3">{{ TEXT.rows.password }}</div>
+    </div>
 		<div class="space-y-3">
 			<AccountFormRow v-for="acc in store.accounts" :key="acc.id" :account="acc" />
 		</div>
