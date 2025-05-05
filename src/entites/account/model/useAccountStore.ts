@@ -1,46 +1,31 @@
 import { defineStore } from 'pinia';
-import { reactive } from 'vue';
-import { v4 as uuid } from 'uuid';
-import { AccountType } from './types';
 import type { Account } from './types';
+import { createEmptyAccount } from './const';
 
-export const createEmptyAccount = (): Account => {
-	return {
-		id: uuid(),
-		labels: '',
-		type: AccountType.local,
-		login: '',
-		password: '',
-	};
-};
+interface AccountStoreState {
+	accounts: Account[];
+}
 
-export const useAccountStore = defineStore('accounts', () => {
-	const accounts = reactive<Account[]>([]);
+export const useAccountStore = defineStore('accounts', {
+	state: (): AccountStoreState => ({ accounts: [] }),
+	actions: {
+		add(account: Account = createEmptyAccount()) {
+			this.accounts.push(account);
+		},
+		update(id: string, account: Partial<Account>) {
+			const idx = this.accounts.findIndex((a) => a.id === id);
+			if (idx === -1) {
+				return;
+			}
+			this.accounts[idx] = { ...this.accounts[idx], ...account };
+		},
 
-	const add = (payload: Account = createEmptyAccount()) => {
-		accounts.push(payload);
-	};
-
-	const update = (id: string, payload: Partial<Account>) => {
-		const idx = accounts.findIndex((a) => a.id === id);
-		if (idx === -1) {
-			return;
-		}
-		accounts[idx] = { ...accounts[idx], ...payload };
-	};
-
-	const remove = (id: string) => {
-		const idx = accounts.findIndex((a) => a.id === id);
-		if (idx === -1) {
-			return;
-		}
-		accounts.splice(idx, 1);
-	};
-
-	return {
-		accounts,
-		add,
-		update,
-		remove,
-	};
+		remove(id: string) {
+			const idx = this.accounts.findIndex((a) => a.id === id);
+			if (idx === -1) {
+				return;
+			}
+			this.accounts.splice(idx, 1);
+		},
+	},
 });
