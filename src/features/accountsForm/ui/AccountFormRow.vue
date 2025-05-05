@@ -69,7 +69,7 @@ const isShowPassword = computed(() => values.type === AccountType.local);
 			type="password"
 			v-model="values.password"
 			:placeholder="TEXT.placeholders.password"
-      :error="!!errors.password"
+			:error="!!errors.password"
 			@blur="onBlur"
 		/>
 
