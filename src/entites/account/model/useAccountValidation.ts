@@ -2,9 +2,8 @@ import { RuleBuilder, useValidator } from '@/shared/lib/validator';
 import { AccountType } from '@/entites/account';
 import type { AccountWithTextLabels } from './types';
 
-export const useAccountValidation = (account: AccountWithTextLabels) => {
+export const useAccountValidation = () => {
 	return useValidator(
-		account,
 		new RuleBuilder<AccountWithTextLabels>()
 
 			.field('labels')
@@ -22,7 +21,6 @@ export const useAccountValidation = (account: AccountWithTextLabels) => {
 			.when((_, ctx) => ctx.type === AccountType.local)
 			.string()
 			.required()
-			.max(1)
 			.max(100)
 			.next()
 
