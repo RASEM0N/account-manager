@@ -5,6 +5,7 @@ export const TEXT = {
 	placeholders: {
 		labels: 'Метка1; Метка2',
 		login: 'Логин',
+		type: 'Тип записи',
 		password: 'Пароль',
 	},
 	types: {
