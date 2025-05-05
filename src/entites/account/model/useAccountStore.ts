@@ -23,7 +23,7 @@ export const useAccountStore = defineStore('accounts', () => {
 
 	const update = (id: string, payload: Partial<Account>) => {
 		const idx = accounts.findIndex((a) => a.id === id);
-		if (idx !== -1) {
+		if (idx === -1) {
 			return;
 		}
 		accounts[idx] = { ...accounts[idx], ...payload };
@@ -31,7 +31,7 @@ export const useAccountStore = defineStore('accounts', () => {
 
 	const remove = (id: string) => {
 		const idx = accounts.findIndex((a) => a.id === id);
-		if (idx !== -1) {
+		if (idx === -1) {
 			return;
 		}
 		accounts.splice(idx, 1);
