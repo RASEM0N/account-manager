@@ -26,6 +26,11 @@ export const useAccountValidation = (account: Account) => {
 			.max(100)
 			.next()
 
+			.field('type')
+			.string()
+			.required()
+			.next()
+
 			.done(),
 	);
 };
