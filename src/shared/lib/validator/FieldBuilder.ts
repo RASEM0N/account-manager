@@ -24,11 +24,11 @@ export class FieldBuilder<T, K extends keyof T> {
 	}
 
 	min(length: number, error?: string) {
-		return this._push((v) => typeof v === 'string' && v.length > length, error);
+		return this._push((v) => typeof v === 'string' && v.length >= length, error);
 	}
 
 	max(length: number, error?: string) {
-		return this._push((v) => typeof v === 'string' && v.length < length, error);
+		return this._push((v) => typeof v === 'string' && v.length <= length, error);
 	}
 
 	next() {

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { useAccountStore } from '@/entites/account';
-import { Plus } from 'lucide-vue-next';
+import { Plus, CircleHelp } from 'lucide-vue-next';
 import { Button } from '@/shared/ui/button';
 import AccountFormRow from './AccountFormRow.vue';
+import AccountsFormHeader from './AccountsFormHeader.vue';
 import { TEXT } from '@/shared/config/text';
 
 const store = useAccountStore();
@@ -15,13 +16,12 @@ const store = useAccountStore();
 				<Plus />
 			</Button>
 		</div>
-		<div class="grid grid-cols-[repeat(11,1fr)] gap-3 items-start mb-4">
-			<div class="col-span-3">{{ TEXT.rows.labels }}</div>
-			<div class="col-span-2">{{ TEXT.rows.type }}</div>
-			<div class="col-span-3">{{ TEXT.rows.login }}</div>
-			<div class="col-span-3">{{ TEXT.rows.password }}</div>
+		<div class="mb-4 p-2 bg-input flex gap-2 items-center rounded-sm">
+			<CircleHelp class="shrink-0" />
+			<span>{{ TEXT.description }} <b>;</b></span>
 		</div>
 		<div class="space-y-3">
+			<AccountsFormHeader />
 			<AccountFormRow v-for="acc in store.accounts" :key="acc.id" :account="acc" />
 		</div>
 	</section>
