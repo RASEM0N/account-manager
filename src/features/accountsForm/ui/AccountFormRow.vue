@@ -30,7 +30,7 @@ const isShowPassword = computed(() => values.type === AccountType.local);
 			v-model="values.labels"
 			:placeholder="TEXT.placeholders.labels"
 			:error="!!errors.labels"
-      maxlength="50"
+			maxlength="50"
 			@blur="onBlur"
 		/>
 
@@ -61,7 +61,7 @@ const isShowPassword = computed(() => values.type === AccountType.local);
 			v-model="values.login"
 			:placeholder="TEXT.placeholders.login"
 			:error="!!errors.login"
-      maxlength="100"
+			maxlength="100"
 			@blur="onBlur"
 		/>
 
@@ -72,7 +72,7 @@ const isShowPassword = computed(() => values.type === AccountType.local);
 			v-model="values.password"
 			:placeholder="TEXT.placeholders.password"
 			:error="!!errors.password"
-      maxlength="100"
+			maxlength="100"
 			@blur="onBlur"
 		/>
 
